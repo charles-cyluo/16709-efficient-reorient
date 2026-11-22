@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-21. **Question (project):** if the policy is rewarded for efficiency (time, arm travel, wrist rotation), does it exploit gravity-driven in-hand slip instead of the 180 deg wrist roll?
 **Code:** `src/reorient/envs/widowx_flip_env.py` (env, reward), `src/reorient/eval/metrics.py` (metrics), `scripts/train_ppo.py`, `scripts/eval_policy.py`, `scripts/render_policy.py`.
-Environment, reward and metric definitions: [`../implementations/widowx-flip-env.md`](../implementations/widowx-flip-env.md), [`../project/metrics.md`](../project/metrics.md). Git revision: none yet (the repository has no commit; the working tree is what ran).
+Environment, reward and metric definitions: [`../implementations/widowx-flip-env.md`](../implementations/widowx-flip-env.md), [`../project/metrics.md`](../project/metrics.md). Git revision: e04d385 (first commit; the default pickup-start mode is unchanged since these runs).
 
 ## Set-up
 WidowX 250 S + thin cylinder (4.5 x 14 cm), episode from the pickup state (cylinder gripped, lifted 16 cm), mass uniform in 0.15-0.25 kg, COM on the axis within +-1.75 cm, fixed start position,

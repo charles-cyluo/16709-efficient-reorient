@@ -1,7 +1,7 @@
 # Weights: PPO policies on WidowXFlipEnv (task-only vs task + efficiency reward)
 
 SB3 PPO (MLP 256x256, gSDE) + VecNormalize statistics, trained for 6M steps. Experiment note: `docs/experiments/2026-11-21-ppo-task-vs-efficiency.md`; env: `docs/implementations/widowx-flip-env.md`.
-Git revision: none yet (the repository has no commit); the working tree of 2026-11-21 produced them (`config.json` of each run is in `outputs/runs/`, git-ignored).
+Git revision: e04d385 (first commit; the 2026-11-21 working tree that produced them is the pickup-start code in that commit, unchanged for the default mode) (`config.json` of each run is in `outputs/runs/`, git-ignored).
 
 | file | reward | seed | success on 200 random scenes (6M steps) |
 |---|---|---|---|
