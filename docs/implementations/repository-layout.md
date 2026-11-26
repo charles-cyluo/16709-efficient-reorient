@@ -39,6 +39,7 @@ scripts/
   eval_policy.py         trained policies over random scenes + comparison table with the scripted baselines
   render_policy.py       video of a trained policy rollout
   sweep_ppo.py           queue of train_ppo.py runs (conditions x seeds from a configs/ file), skips finished runs
+  probe_episode_terms.py roll out a trained policy for a few episodes: summed reward terms per episode, success clauses and gripper action at a few steps (why a policy never succeeds)
   plot_eval.py           figures from an eval_policy.py --groups result: metric bars with per-seed dots, training curves (outputs/figures/)
   probe_widowx.py        same probe with the WidowX 250 S on the table (standalone sim, not wired into the env)
 configs/
