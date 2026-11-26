@@ -20,4 +20,18 @@ Evaluation (when done): `uv run python scripts/eval_policy.py --groups --ckpt-st
 Outputs: `outputs/runs/2026-11-2*-<condition>-<seed>/`, `outputs/eval/ablation_v1.{json,md}`, `outputs/figures/ablation_v1/`.
 
 ## Results
-(pending)
+
+### Partial 1 (2026-11-25 21:40): `eff_time_only` seed 0
+Run `outputs/runs/2026-11-25-eff_time_only-0` (6M steps in 65 min). Compared with the committed seed-3 policies of the 2026-11-21 note (not re-trained yet) on 200 scenes, deterministic, final policy:
+`uv run python scripts/eval_policy.py --groups --runs outputs/runs/2026-11-25-eff_time_only-0 outputs/runs/committed-task_only-3 outputs/runs/committed-task_eff-3 --names eff_time_only/s0 task_only/s3 task_eff/s3 --n 200 --n-envs 10 --baselines baselines_v3 --tag ablation_partial_1`
+(`outputs/eval/ablation_partial_1.{json,md}`, figure `outputs/figures/ablation_partial_1/metrics_bars.png`, video `outputs/videos/rl_eff_time_only_seed0.mp4`).
+
+| metric | scripted pivot | scripted roll | time only, s0 | task only, s3 | task + all eff., s3 |
+|---|---|---|---|---|---|
+| success | 100 % | 100 % | 100 % | 100 % | 100 % |
+| completion time [s] | 7.62 | 5.31 | 1.08 | 1.06 | 0.64 |
+| joint path [rad] | 3.58 | 5.36 | 11.32 | 9.47 | 2.97 |
+| wrist rotation [rad] | 0.04 | 3.14 | 3.21 | 2.58 | 0.05 |
+| rho | 0.91 | 0.01 | 0.16 | 0.79 | 0.88 |
+
+**Reading (one seed, preliminary).** The time penalty alone gives a reliable, fast policy (100 %, 1.1 s), but it inverts the cylinder by **rigid rotation** (wrist rotation 3.2 rad, rho 0.16; in the video frames the cylinder stays aligned with the gripper through the flip), the solution the project expects without efficiency pressure. So in this seed the time term does not select the gravity swing; the joint-travel / wrist terms would be what does. The 2026-11-21 note's question (preference vs exploration aid) gets a first answer: time acts as the exploration aid (the policy learns, unlike 3/5 task-only seeds), not as the preference for the swing. Needs the other 4 seeds.
