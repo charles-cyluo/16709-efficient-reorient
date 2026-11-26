@@ -40,6 +40,14 @@ def style(ax):
     ax.set_axisbelow(True)
 
 
+def label_bar(ax, i, top, key, shown=None):
+    """Value label above a bar (near-zero bars are otherwise invisible)."""
+    v = top if shown is None else shown
+    if np.isnan(v):
+        return
+    ax.annotate(("%.0f" if key == "success" else "%.2f") % v, (i, top), xytext=(0, 3), textcoords="offset points", ha="center", va="bottom", fontsize=7, color=TEXT2)
+
+
 def seed_value(rows, key):
     """Per-seed value: success rate over all episodes, efficiency means over the successful ones (as in aggregate.py)."""
     if key == "success":
@@ -61,6 +69,7 @@ def bars(data, conditions, out):
                 a = agg[m]
                 val = a["success_rate"] if key == "success" else a[key + "_mean"]
                 ax.bar(i, scale * val, width=0.62, color=SCRIPTED, edgecolor=SURFACE, linewidth=2)
+                label_bar(ax, i, scale * val, key)
                 continue
             seeds = [scale * seed_value(rs, key) for rs in per_cond[m]]
             pooled = [r for rs in per_cond[m] for r in rs]
@@ -68,12 +77,14 @@ def bars(data, conditions, out):
             ax.bar(i, val, width=0.62, color=SERIES[0], alpha=0.85, edgecolor=SURFACE, linewidth=2)
             jitter = np.linspace(-0.16, 0.16, len(seeds)) if len(seeds) > 1 else [0.0]
             ax.scatter(i + np.asarray(jitter), seeds, s=22, color=TEXT, edgecolor=SURFACE, linewidth=1.2, zorder=3)
+            label_bar(ax, i, max([val] + [v for v in seeds if not np.isnan(v)]), key, shown=val)
         ax.set_title(label, fontsize=9, color=TEXT, loc="left")
         ax.set_xticks(x, [LABELS.get(m, m) for m in methods], rotation=40, ha="right", fontsize=8)
+        ax.set_ylim(0, ax.get_ylim()[1] * 1.1)
         if key == "rho":
-            ax.set_ylim(0, 1.05)
+            ax.set_ylim(0, 1.12)
         if key == "success":
-            ax.set_ylim(0, 105)
+            ax.set_ylim(0, 112)
     fig.text(0.01, 0.01, "bars: pooled over seeds (RL) or 200 scenes (scripted, grey); dots: one per seed; efficiency metrics over successful episodes only",
              fontsize=7, color=TEXT2)
     fig.tight_layout(rect=(0, 0.04, 1, 1))
@@ -113,7 +124,8 @@ def curves(conditions, out, max_steps):
             ax.plot(grid / 1e6, np.nanmean(ys, 0), color=color, linewidth=2, label="%s (%d seeds)" % (LABELS.get(c, c), len(ys)))
         ax.set_title(label, fontsize=9, color=TEXT, loc="left")
         ax.set_xlabel("environment steps [M]", fontsize=8, color=TEXT2)
-    axes[0].legend(fontsize=7, frameon=False, labelcolor=TEXT2)
+    if axes[0].get_legend_handles_labels()[0]:
+        axes[0].legend(fontsize=7, frameon=False, labelcolor=TEXT2)
     fig.text(0.01, 0.01, "line: mean over seeds; band: min-max over seeds; rolling window of the last 300 training episodes (stochastic policy)", fontsize=7, color=TEXT2)
     fig.tight_layout(rect=(0, 0.04, 1, 1))
     fig.savefig(os.path.join(out, "training_curves.png"), dpi=160, facecolor=SURFACE)
