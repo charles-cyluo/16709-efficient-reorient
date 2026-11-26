@@ -38,7 +38,11 @@ scripts/
   train_ppo.py           PPO (SB3) on WidowXFlipEnv, task-only or task + efficiency reward; run dir outputs/runs/<date>-<name>-<seed>
   eval_policy.py         trained policies over random scenes + comparison table with the scripted baselines
   render_policy.py       video of a trained policy rollout
+  sweep_ppo.py           queue of train_ppo.py runs (conditions x seeds from a configs/ file), skips finished runs
+  plot_eval.py           figures from an eval_policy.py --groups result: metric bars with per-seed dots, training curves (outputs/figures/)
   probe_widowx.py        same probe with the WidowX 250 S on the table (standalone sim, not wired into the env)
+configs/
+  ablation_v1.json       reward-ablation conditions (reward mode + weight overrides) and the common PPO arguments
 tests/                   light tests (env steps, rigid flip inverts the cup, WidowX env incl. learn_grasp mode)
 docs/                    project / sessions / experiments / implementations
 ```
