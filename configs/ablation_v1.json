@@ -1,0 +1,11 @@
+{
+  "_doc": "Reward ablation sweep on WidowXFlipEnv (pickup start). See docs/experiments/2026-11-25-reward-ablation.md. Weights not listed keep the env defaults (time 0.02/step, arm_travel 0.5/rad, wrist_rotation 2/rad, drop 10, success 20).",
+  "common": ["--steps", "6000000", "--n-envs", "15", "--batch-size", "3840", "--sde", "--sde-freq", "8", "--log-std-init", "-1.0", "--ent-coef", "0.0", "--device", "cpu"],
+  "conditions": {
+    "task_only":      {"reward": "task",       "weights": {"drop": 10.0}},
+    "task_eff":       {"reward": "efficiency", "weights": {}},
+    "eff_time_only":  {"reward": "efficiency", "weights": {"arm_travel": 0.0, "wrist_rotation": 0.0}},
+    "eff_wrist_only": {"reward": "efficiency", "weights": {"time": 0.0, "arm_travel": 0.0}},
+    "eff_travel_only":{"reward": "efficiency", "weights": {"time": 0.0, "wrist_rotation": 0.0}}
+  }
+}

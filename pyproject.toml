@@ -6,6 +6,7 @@ dependencies = [
     "gymnasium>=1.4.0",
     "imageio>=2.38.2",
     "imageio-ffmpeg>=0.8.1",
+    "matplotlib>=3.11.2",
     "mujoco>=4.0.1",
     "numpy>=2.4.6",
     "pytest>=9.2.0",
