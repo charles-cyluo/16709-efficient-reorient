@@ -27,4 +27,6 @@
 - The sweep died at 22:34 on 2026-11-25: a memory-pressure kill took down the desktop app it was started from. Three runs were done. Relaunched 13:12 as a low-priority `systemd-run --user` service (`ablation-v1-sweep`), which does not depend on any session. The command is in the experiment note. Stop: `systemctl --user stop ablation-v1-sweep`.
 - `eff_travel_only` seed 0 ended at 0 % success. Checked: not a bug; the policy inverts the cylinder and then holds it until the time limit. Details are in the experiment note (Partial 2). New diagnostic script `scripts/probe_episode_terms.py`.
 
+- All 15 term-ablation runs done 18:24 and evaluated (200 scenes each). Result in the experiment note ("Full result"): time only 4/5 learn but 2 of them use the rigid flip; every success under wrist only (1/5) or travel only (2/5, +1 partial) uses the swing; only task + all three terms is both reliable and always the swing. `plot_eval.py` now draws one thin line per seed in the training curves (min-max bands were unreadable).
+
 **Open / TODO.** See plan; results go to `experiments/2026-11-25-reward-ablation.md`.

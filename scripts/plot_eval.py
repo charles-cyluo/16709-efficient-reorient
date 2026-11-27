@@ -120,13 +120,14 @@ def curves(conditions, out, max_steps):
                 continue
             ys = np.array(ys)
             color = SERIES[ci % len(SERIES)]
-            ax.fill_between(grid / 1e6, np.nanmin(ys, 0), np.nanmax(ys, 0), color=color, alpha=0.12, linewidth=0)
+            for y in ys:  # one thin line per seed (min-max bands of several conditions overlap into an unreadable area)
+                ax.plot(grid / 1e6, y, color=color, linewidth=0.8, alpha=0.35)
             ax.plot(grid / 1e6, np.nanmean(ys, 0), color=color, linewidth=2, label="%s (%d seeds)" % (LABELS.get(c, c), len(ys)))
         ax.set_title(label, fontsize=9, color=TEXT, loc="left")
         ax.set_xlabel("environment steps [M]", fontsize=8, color=TEXT2)
     if axes[0].get_legend_handles_labels()[0]:
         axes[0].legend(fontsize=7, frameon=False, labelcolor=TEXT2)
-    fig.text(0.01, 0.01, "line: mean over seeds; band: min-max over seeds; rolling window of the last 300 training episodes (stochastic policy)", fontsize=7, color=TEXT2)
+    fig.text(0.01, 0.01, "thick line: mean over seeds; thin lines: single seeds; rolling window of the last 300 training episodes (stochastic policy)", fontsize=7, color=TEXT2)
     fig.tight_layout(rect=(0, 0.04, 1, 1))
     fig.savefig(os.path.join(out, "training_curves.png"), dpi=160, facecolor=SURFACE)
     plt.close(fig)
